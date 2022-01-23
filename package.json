@@ -24,5 +24,8 @@
   "homepage": "https://github.com/MhmtMutlu/nodejs-photo-upload#readme",
   "devDependencies": {
     "prettier": "2.5.1"
+  },
+  "dependencies": {
+    "express": "^4.17.2"
   }
 }
