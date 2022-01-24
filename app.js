@@ -1,9 +1,17 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const ejs = require('ejs');
 const path = require('path');
+const Photo = require('./models/Photo');
 
 const app = express();
 const port = 3000;
+
+//! Connect to DB
+mongoose.connect('mongodb://localhost/photo-upload-db', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 //! Template Engine
 app.set('view engine', 'ejs');
@@ -25,8 +33,8 @@ app.get('/add', (req, res) => {
   res.render('add');
 });
 
-app.post('/photos', (req, res) => {
-  console.log(req.body);
+app.post('/photos', async (req, res) => {
+  await Photo.create(req.body);
   res.redirect('/');
 });
 
