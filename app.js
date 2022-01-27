@@ -44,6 +44,12 @@ app.get('/photos/:id', async (req, res) => {
     photo,
   });
 });
+app.get('/photos/edit/:id', async (req, res) => {
+  const photo = await Photo.findOne({ _id: req.params.id });
+  res.render('edit', {
+    photo,
+  });
+});
 
 app.post('/photos', async (req, res) => {
   const uploadDir = 'public/uploads';
