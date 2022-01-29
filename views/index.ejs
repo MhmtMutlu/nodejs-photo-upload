@@ -62,13 +62,31 @@
 
                     <!-- Catalog Paging Buttons -->
                     <div>
-                        <ul class="nav tm-paging-links">
-                            <li class="nav-item active"><a href="#" class="nav-link tm-paging-link">1</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link tm-paging-link">2</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link tm-paging-link">3</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link tm-paging-link">4</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link tm-paging-link">></a></li>
-                        </ul>
+                        <% if(pages > 0) { %>
+                            <ul class="nav tm-paging-links">
+                                <li class="nav-item">
+                                    <a 
+                                        href="/?page=<%= Number(current) - 1 %>" 
+                                        class="nav-link tm-paging-link <%= current == 1 ? 'disabled' : '' %>"
+                                    >
+                                        <
+                                    </a>
+                                </li>
+                                <% for(let i = 0; i < pages; i++) { %>
+                                    <li class="nav-item <%= current == i + 1 ? 'active' : '' %>">
+                                        <a href="/?page=<%= i + 1 %>" class="nav-link tm-paging-link"><%= i + 1 %></a>
+                                    </li>
+                                <% } %>
+                                <li class="nav-item">
+                                    <a 
+                                        href="/?page=<%= Number(current) + 1 %>" 
+                                        class="nav-link tm-paging-link <%= current == pages ? 'disabled' : '' %>"
+                                    >
+                                        >
+                                    </a>
+                                </li>
+                            </ul>
+                        <% } %>
                     </div>
                 </main>
 

@@ -1,11 +1,17 @@
 const Photo = require('../models/Photo');
 
-
 exports.getHomePage = async (req, res) => {
-  // res.sendFile(path.resolve(__dirname, 'temp/index.html'));
-  const photos = await Photo.find({}).sort('-createdDate');
+  const page = req.query.page ?? 1;
+  const photosPerPage = 3;
+  const totalPhotos = await Photo.find().countDocuments();
+  const photos = await Photo.find({})
+    .sort('-createdDate')
+    .skip((page - 1) * photosPerPage)
+    .limit(photosPerPage);
   res.render('index', {
     photos,
+    pages: Math.ceil(totalPhotos / photosPerPage),
+    current: page,
   });
 };
 
