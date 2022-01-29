@@ -4,15 +4,23 @@ const fileUpload = require('express-fileupload');
 const methodOverride = require('method-override');
 const photoController = require('./controllers/photoControllers');
 const pageController = require('./controllers/pageController');
+const dotenv = require('dotenv');
 
+dotenv.config();
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 5000;
 
 //! Connect to DB
-mongoose.connect('mongodb://localhost/photo-upload-db', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect(
+    `mongodb+srv://mhmetmtlu:${process.env.USER_PASSWORD}@cluster0.bdn1v.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => console.log('Server ile bağlantı kuruldu!'))
+  .catch((err) => console.log('Servera bağlanılamadı! -> ', err));
 
 //! Template Engine
 app.set('view engine', 'ejs');
@@ -38,7 +46,6 @@ app.get('/photos/:id', photoController.getPhoto);
 app.post('/photos', photoController.createPhoto);
 app.delete('/photos/:id', photoController.deletePhoto);
 app.put('/photos/:id', photoController.updatePhoto);
-
 
 app.listen(port, () => {
   console.log(`Sunucu ${port} portunda başlatıldı!`);
